@@ -1,0 +1,134 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/seomukul/Automation/blob/main/imdb%20cast%20list%20downloader\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "pip install requests beautifulsoup4\n"
+      ],
+      "metadata": {
+        "id": "CAhtsG-Mk-Hu"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import requests\n",
+        "from bs4 import BeautifulSoup\n"
+      ],
+      "metadata": {
+        "id": "iR9IPs4VlAqV"
+      },
+      "execution_count": 19,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "url = input(\"\")\n",
+        "response = requests.get(url)\n",
+        "html_content = response.text\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "3D9RXwTxlDWc",
+        "outputId": "4154a203-69c1-44d9-d77d-c6bc2152c608"
+      },
+      "execution_count": 38,
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": [
+            "https://www.imdb.com/title/tt0050083/fullcredits?ref_=tt_cl_sm\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "soup = BeautifulSoup(html_content, \"html.parser\")\n",
+        "cast_section = soup.find(\"table\", {\"class\": \"cast_list\"})"
+      ],
+      "metadata": {
+        "id": "eJuF5PE6lGzP"
+      },
+      "execution_count": 39,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "cast_members = cast_section.find_all(\"td\", {\"class\": \"primary_photo\"})\n",
+        "cast_names = [member.find(\"img\")[\"alt\"] for member in cast_members]\n",
+        "for name in cast_names:\n",
+        "    print(name)\n",
+        "\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "2kq_tVnvlTyd",
+        "outputId": "09e38be5-4e38-42d7-dac5-5abc7fdb0e9a"
+      },
+      "execution_count": 40,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Martin Balsam\n",
+            "John Fiedler\n",
+            "Lee J. Cobb\n",
+            "E.G. Marshall\n",
+            "Jack Klugman\n",
+            "Edward Binns\n",
+            "Jack Warden\n",
+            "Henry Fonda\n",
+            "Joseph Sweeney\n",
+            "Ed Begley\n",
+            "George Voskovec\n",
+            "Robert Webber\n",
+            "Rudy Bond\n",
+            "Tom Gorman\n",
+            "James Kelly\n",
+            "Billy Nelson\n",
+            "John Savoca\n",
+            "Walter Stocker\n"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyPmLSwq8i216t5Gk8hbY1qL",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "display_name": "Python 3",
+      "name": "python3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 0
+}
